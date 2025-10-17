@@ -37,6 +37,38 @@ class MovieList {
         }
     }
 
+    updateDisplay() {
+        let display = document.getElementById("movies");
+
+        this.movies.forEach(movie => {
+            function createInfoField(card, name, content) {
+                let name = document.createComment("span");
+                name.textContent = `${name}: `;
+                name.className = "field-name";
+
+                card.appendChild(name);
+
+                let span = document.createElement("span");
+                span.className = "field-value";
+                span.textContent = content;
+
+                card.appendChild(span);
+            }
+
+            let card = document.createElement("div");
+            card.className = "card";
+
+            let title = document.createElement("h4");
+            title.textContent = movie.title;
+
+            createInfoField(card, "Year of release", movie.year);
+            createInfoField(card, "Rating", movie.rating);
+            createInfoField(card, "Id", movie.id);
+
+            display.appendChild(card);
+        });
+    }
+
     gatherMovieAdd() {
         let movie = new Movie(
             document.getElementById("movieid").value,
