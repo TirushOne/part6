@@ -1,0 +1,45 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <section id="movies">
+
+        </section>
+
+        <section>
+            <h3>Add Movie</h3>
+
+            <form action="" id="add-movie">
+                <label for="title">Title</label><br>
+                <input type="text" name="title" id="title"><br>
+                <label for="year">Year of release</label><br>
+                <input type="number" name="year" id="year"><br>
+                <label for="rating">Rating</label><br>
+                <input type="text" name="rating" id="rating"><br>
+                <label for="movieid">Movie ID</label><br>
+                <input type="number" name="movieid" id="movieid"><br>
+
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+
+        <section>
+            <h3>Sort Movies</h3>
+
+            <form action="" id="sort-movies">
+                <input type="radio" id="A-Z" name="sort-type" value="A-Z" checked>
+                <label for="A-Z">A-Z</label><br>
+                <input type="radio" id="Z-A" name="sort-type" value="Z-A">
+                <label for="Z-A">Z-A</label><br>
+                <input type="radio" id="best-movies" name="sort-type" value="best-movies">
+                <label for="best-movies">Best Movies</label>
+            </form>
+        </section>
+
+        <script src="./javascript.js"></script>
+    </body>
+    </html>
