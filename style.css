@@ -1,0 +1,15 @@
+:root {
+    --background--colour: #FFFFFF;
+    --seconary-colour: rgb(0, 20, 80);
+    --accent--colour: rgb(0, 124, 165);
+}
+
+body {
+    color: var(--seconary-colour);
+    font-family: "Montserrat", sans-serif;
+}
+
+.movie-card {
+    border: 0.5rem;
+    border-color: var(--seconary-colour);
+}
