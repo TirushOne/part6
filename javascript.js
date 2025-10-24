@@ -10,6 +10,7 @@ class Movie {
 class MovieList {
     constructor() {
         this.movies = [];
+        this.order = "A-Z";
     }
 
     addMovie(movie) {
@@ -23,50 +24,101 @@ class MovieList {
         for (const radioButton of radioButtons) {
             if (radioButton.checked) {
                 selectedValue = radioButton.value;
-                break
+                break;
             }
         }
+
+        console.log(selectedValue);
         
         switch (selectedValue) {
             case "A-Z":
-                this.movies.sort((a, b) => { a.title.localeCompare(b.title) });
+                this.order = "A-Z";
+                this.movies.sort((a, b) => a.title.localeCompare(b.title));
+                console.log(this.movies);
+                break;
             case "Z-A":
-                this.movies.sort((a, b) => { b.title.localCompare(a.title) });
+                this.order = "Z-A";
+                this.movies.sort((a, b) => b.title.localeCompare(a.title));
+                console.log(this.movies);
+                break;
             case "best-movies":
-                this.movies.sort((a, b) => {a.rating.localCompare(b.rating)});
+                this.order = "best";
+                this.movies.sort((a, b) => a.title.localeCompare(b.title));
+                console.log(this.movies);
+                break;
         }
     }
 
-    updateDisplay() {
-        let display = document.getElementById("movies");
+    writeDisplay() {
+        function updateMovieDisplay(movies) {
+            let display = document.getElementById("movies");
+            
+            while (display.lastChild) {
+                display.removeChild(display.lastChild);
+            }
+            
+            movies.forEach(movie => {
+                function createInfoField(card, name, content, className) {
+                    let nameElement = document.createElement("span");
+                    nameElement.textContent = `${name}: `;
+                    
+                    card.appendChild(nameElement);
+                    let span = document.createElement("span");
+                    span.className = className;
+                    span.textContent = content;
+                    
+                    card.appendChild(span);
+                    card.appendChild(document.createElement('br'));
+                }
+        
+                let card = document.createElement("div");
+                card.className = "movie-card";
+        
+                let title = document.createElement("h4");
+                title.textContent = movie.title;
+        
+                if (movie.highlights?.title) {
+                    title.className = "highlight";
+                }
+        
+                card.appendChild(title);
+        
+                createInfoField(card, "Year of release", movie.year, (movies.highlights?.year) ? "highlight" : "");
+                createInfoField(card, "Rating", movie.rating, (movies.highlights?.rating) ? "highlight" : "");
+                createInfoField(card, "Id", movie.id, (movies.highlights?.rating) ? "highlight" : "");
+        
+                display.appendChild(card);
+            });
+        }
 
-        this.movies.forEach(movie => {
-            function createInfoField(card, name, content) {
-                let name = document.createComment("span");
-                name.textContent = `${name}: `;
-                name.className = "field-name";
+        let mapped_movies = this.movies.map((movie) => { 
+            let highlights;
 
-                card.appendChild(name);
-
-                let span = document.createElement("span");
-                span.className = "field-value";
-                span.textContent = content;
-
-                card.appendChild(span);
+            switch (this.order) {
+                case "A-Z":
+                    highlights = {
+                        "title":true
+                    };
+                break;
+                case "Z_A":
+                    highlights = {
+                        "title":true
+                    };
+                break;
+                default:
+                    highlights = {
+                        "rating":true
+                    };
+                break;
             }
 
-            let card = document.createElement("div");
-            card.className = "card";
-
-            let title = document.createElement("h4");
-            title.textContent = movie.title;
-
-            createInfoField(card, "Year of release", movie.year);
-            createInfoField(card, "Rating", movie.rating);
-            createInfoField(card, "Id", movie.id);
-
-            display.appendChild(card);
+            movie.highlights = highlights;
+            return movie;
         });
+
+        updateMovieDisplay(
+            mapped_movies
+        )
     }
 
     gatherMovieAdd() {
@@ -83,7 +135,7 @@ class MovieList {
     }
 
     searchById(id) {
-        for (let i = 0; i < this.movies.Length; i++) {
+        for (let i = 0; i < this.movies.length; i++) {
             if (this.movies[i].id == id) {
                 return this.movies[i];
             }
@@ -103,6 +155,8 @@ class MovieList {
 
         return matched;
     }
+
+
 }
 
 let movieList = new MovieList();
@@ -111,12 +165,18 @@ document.getElementById("add-movie").addEventListener("submit", (e) => {
     e.preventDefault();
     movieList.gatherMovieAdd();
     movieList.sort();
+    movieList.writeDisplay();
 });
 
-document.getElementById("sort-movies").addEventListener("changed", (e) => {
-    e.preventDefault();
-    movieList.sort();
+document.querySelectorAll('input[name="sort-type"]').forEach(button => {
+    button.addEventListener("change", (e) => {
+        console.log("changed");
+        e.preventDefault();
+        movieList.sort();
+        movieList.writeDisplay();
+    });
 });
+
 
 
 

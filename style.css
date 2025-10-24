@@ -10,6 +10,16 @@ body {
 }
 
 .movie-card {
-    border: 0.5rem;
+    display: inline-block;
+    border-style: solid;
+    border-radius: 1rem;
+    border-width: 0.2rem;
+    margin: 1rem;
+    padding: 1rem;
     border-color: var(--seconary-colour);
+}
+
+.highlight {
+    color: var(--accent--colour);
+    font-weight: bold;
 }
